@@ -93,7 +93,12 @@ void setup() {
  digitalWrite(bomb, HIGH);
  digitalWrite(dimmer, LOW);
  digitalWrite(dimmer2, LOW);
-  
+
+  Serial.println("Si quieres controlar los actuadores usa los siguientes comandos");
+  Serial.println(" c para abrir la cochera");
+  Serial.println(" T para usar el ventilador en la sala");
+  Serial.println(" H para regar el jardin");
+  Serial.println(" q para el ventilador del cuarto");
 }
 
 void shit(char a){
@@ -121,7 +126,6 @@ void shit(char a){
       delay(1000);
       digitalWrite(fan2, HIGH);
     break;
-
   }
   return;
 }
@@ -155,8 +159,10 @@ void loop() {
     if(isnan(hum) || isnan (temp)){
       Serial.println("Fallo!");
     }else{
-      Serial.print (temp);
-      Serial.print (hum);
+      Serial.print (" temperatura sala: ");
+      Serial.println (temp);
+      Serial.print(" humedad sala: ");
+      Serial.println (hum);
       l = 'T';
       shit(l);
     }
@@ -167,16 +173,19 @@ void loop() {
     if(isnan(hum2) || isnan (temp2)){
       Serial.println("Fallo2!");
     }else{
-      Serial.print(temp2);
-      Serial.print(hum2);
+      Serial.print("temperatura cuarto: ");
+      Serial.println(temp2);
+      Serial.println(" humedad cuarto: ");
+      Serial.println(hum2);
       l = 'q';
       shit(l);
     }
 
     boolean humo = digitalRead(mq);
     if (humo){
-      Serial.print ("good air");
+      Serial.println ("good air");
     }else{
+      Serial.println("aire contaminado");
       l = 'q';
       shit(l);
     }
@@ -184,8 +193,10 @@ void loop() {
     int luzfuera = analogRead(ldr);
 
     if (luzfuera < 512){
+      Serial.println("Falta de luz exterior"); 
       analogWrite(dimmer, 1023);
     }else {
+      Serial.println("Hay luz exterior");
       digitalWrite(dimmer, LOW);
     }
     
