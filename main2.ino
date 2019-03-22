@@ -36,11 +36,11 @@ int luzL = 24;
 int luzC = 25;
 int dimmer2 = 5;
 int luzC1 = 27;
-int boton = 28;
 int bomb = 29;
 
 //entras rasp
 
+int boton = 28;
 int puerta = 35;
 int cochera = 36;
 int vent1 = 37;
@@ -227,6 +227,7 @@ void loop() {
     int puer = digitalRead(puerta);
     int fa1 = digitalRead(vent1);
     int fa2 = digitalRead(vent2);
+    int bom = digitalRead(boton);
     if( coche == HIGH){
       l = 'c';
       shit(l);
@@ -238,6 +239,9 @@ void loop() {
       shit(l);
     }else if(fa2 == HIGH){
       l = 'q';
+      shit(l);
+    }else if( bom == HIGH){
+      l = 'H';
       shit(l);
     }
 }
