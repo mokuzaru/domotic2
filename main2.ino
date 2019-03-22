@@ -35,7 +35,7 @@ int dimmer = 6;
 int luzL = 24;
 int luzC = 25;
 int dimmer2 = 5;
-int luzE = 27;
+int luzC1 = 27;
 int boton = 28;
 int bomb = 29;
 
@@ -63,8 +63,8 @@ Servo puerta;
 
 void setup() {
   Serial.begin(9600);
-  cochera.attach(30,600,1500);
-  puerta.attach(31,600,1500);
+  cochera.attach(31,600,1500);
+  puerta.attach(32,600,1500);
   SPI.begin();
   mfrc522.PCD_Init();
   pinMode(mq,INPUT);
@@ -76,6 +76,7 @@ void setup() {
   pinMode(luzL, OUTPUT);
   pinMode(luzC, OUTPUT);
   pinMode(dimmer2, OUTPUT);
+  pinMode(luzC1, OUTPUT);
   pinMode(ldr, INPUT);
   pinMode(boton, INPUT);
   pinMode(bomb, OUTPUT);
