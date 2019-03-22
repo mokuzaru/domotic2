@@ -39,6 +39,13 @@ int luzC1 = 27;
 int boton = 28;
 int bomb = 29;
 
+//entras rasp
+
+int puerta = 35;
+int cochera = 36;
+int vent1 = 37;
+int vent2 = 38;
+
 
 //Rango hum : 0~300.muy humedo # 300~700. intermedio #700~1023.seco
 //codigo rfid 35 A2 2E 83
@@ -58,13 +65,13 @@ float temp, hum, temp2, hum2;
 
 //objetos
 
-Servo cochera;
-Servo puerta;
+Servo cochera1;
+Servo puerta1;
 
 void setup() {
   Serial.begin(9600);
-  cochera.attach(31,600,1500);
-  puerta.attach(32,600,1500);
+  cochera1.attach(31,600,1500);
+  puerta1.attach(32,600,1500);
   SPI.begin();
   mfrc522.PCD_Init();
   pinMode(mq,INPUT);
@@ -82,10 +89,16 @@ void setup() {
   pinMode(bomb, OUTPUT);
   pinMode(humedad, INPUT);
 
+  pinMode(puerta, INPUT);
+  pinMode(cochera, INPUT);
+  pinMode(vent1, INPUT);
+  pinMode(vent2, INPUT);
+
   //put close
 
-  cochera.write(0);
-  cochera.write(0);
+  cochera1.write(0);
+  puerta1.write(0);
+
   //Initial mode
 
  digitalWrite(fan1, HIGH);
@@ -99,14 +112,15 @@ void setup() {
   Serial.println(" T para usar el ventilador en la sala");
   Serial.println(" H para regar el jardin");
   Serial.println(" q para el ventilador del cuarto");
+  Serial.println(" M para la puerta principal");
 }
 
 void shit(char a){
   switch (a){
     case 'c':
-      cochera.write(70);
+      cochera1.write(70);
       delay(1000);
-      cochera.write(0);      
+      cochera1.write(0);      
     break;
 
     case 'T':
@@ -126,6 +140,12 @@ void shit(char a){
       delay(1000);
       digitalWrite(fan2, HIGH);
     break;
+    case 'M':
+      puerta1.write(70);
+      Serial.println("puerta abierta");
+      delay(1000);
+      puerta1.write(0);
+      Serial.println("puerta cerrada");
   }
   return;
 }
@@ -203,5 +223,21 @@ void loop() {
       Serial.println("Hay luz exterior");
       digitalWrite(dimmer, LOW);
     }
-    
+    int coche = digitalRead(cochera);
+    int puer = digitalRead(puerta);
+    int fa1 = digitalRead(vent1);
+    int fa2 = digitalRead(vent2);
+    if( coche == HIGH){
+      l = 'c';
+      shit(l);
+    }else if(puer == HIGH){
+      l = 'M';
+      shit(l);
+    }else if(fa1 == HIGH){
+      l = 'T';
+      shit(l);
+    }else if(fa2 == HIGH){
+      l = 'q';
+      shit(l);
+    }
 }
