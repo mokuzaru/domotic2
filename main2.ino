@@ -27,6 +27,15 @@ int humedad = A0;
 char l = 'k';
 int servo1 = 31;
 int servo2 = 32;
+int fan1 = 33;
+int ldr = A1;
+int luzS = 4;
+int luzL = 24;
+int luzC = 25;
+int luzC2 = 5;
+int luzE = 27;
+
+
 //Rango hum : 0~300.muy humedo # 300~700. intermedio #700~1023.seco
 //codigo rfid 35 A2 2E 83
 
@@ -54,20 +63,36 @@ void setup() {
   SPI.begin();
   mfrc522.PCD_Init();
   pinMode(mq,INPUT);
+  pinMode(30, OUTPUT);
+  pinMode(31, OUTPUT);
+  pinMode(32, OUTPUT);
+  pinMode(33, OUTPUT);
+
+  //put close
+
+  cochera.write(0);
+  cochera.write(0);
+  //Initial mode
+
+ digitalWrite(fan1, HIGH);
+  
 }
 
 void shit(char a){
   switch (a){
     case 'c':
-      //open garage door
-      
-    break;
-
-    case 'l':
-      //start a fan or something
+      cochera.write(70);
+      delay(1000);
+      cochera.write(0);      
     break;
 
     case 'T':
+      digitalWrite(fan1, LOW);
+      delay(1000);
+      digitalWrite(fan1, HIGH);
+    break;
+
+    case 'H':
       //Start something
     break;
   }
