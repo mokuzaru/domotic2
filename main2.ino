@@ -143,6 +143,7 @@ void loop() {
                   
                   l = 'c';
                   shit(l);
+                  Serial.println("Tarjeta correcta, abriendo cochera");
             }
                   //Serial.println();
                   // Terminamos la lectura de la tarjeta  actual
@@ -151,6 +152,9 @@ void loop() {
     if( analogRead(humedad) < 700 ){
       l = "H";
       shit(l);
+      Serial.println("Jardin necesita regar");
+    }else {
+      Serial.println("jardin esta humedo");
     }
 
     hum = dht.readHumidity();
